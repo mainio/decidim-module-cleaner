@@ -12,7 +12,7 @@ module Decidim
           send_warning(Decidim::User.unscoped.where(organization:)
                                     .not_deleted
                                     .where.not(email: "")
-                                    .where("current_sign_in_at < ?", email_inactive_before_date(organization)))
+                                    .where("last_sign_in_at < ?", email_inactive_before_date(organization)))
           delete_user_and_send_email(Decidim::User.unscoped.where(organization:)
                                                   .not_deleted
                                                   .where.not(email: "")
