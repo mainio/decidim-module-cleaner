@@ -47,9 +47,7 @@ module Decidim
             delete_admin_logs_after: form.delete_admin_logs_after,
             delete_inactive_users: form.delete_inactive_users,
             delete_inactive_users_after: form.delete_inactive_users_after,
-            delete_inactive_users_email_after: form.delete_inactive_users_email_after,
-            delete_inactive_managed_users: form.delete_inactive_managed_users,
-            delete_inactive_managed_users_after: form.delete_inactive_managed_users_after
+            delete_inactive_users_email_after: form.delete_inactive_users_email_after
           }
         end
       end
