@@ -10,6 +10,10 @@ module Decidim
       def delete_inactive_after(organization)
         organization.delete_inactive_users_after || Decidim::Cleaner.delete_inactive_users_after
       end
+
+      def delete_inactive_managed_after(organization)
+        organization.delete_inactive_managed_users_after || Decidim::Cleaner.delete_inactive_managed_users_after
+      end
     end
   end
 end
