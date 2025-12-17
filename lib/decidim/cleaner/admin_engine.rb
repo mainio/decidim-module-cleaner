@@ -13,12 +13,17 @@ module Decidim
         nil
       end
 
+      initializer "decidim_admin.register_icons" do
+        Decidim.icons.register(name: "brush-2-line", icon: "brush-2-line", category: "system", description: "", engine: :admin)
+      end
+
       initializer "decidim_admin.admin_settings_menu" do
         Decidim.menu :admin_settings_menu do |menu|
           menu.add_item :clean_organization,
                         I18n.t("menu.clean", scope: "decidim.admin"),
                         decidim_admin.edit_organization_cleaner_path,
                         position: 1.8,
+                        icon_name: "brush-2-line",
                         if: allowed_to?(:update, :organization, organization: current_organization),
                         active: is_active_link?(decidim_admin.edit_organization_cleaner_path)
         end
