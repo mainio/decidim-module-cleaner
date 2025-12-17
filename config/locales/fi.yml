@@ -23,6 +23,7 @@ fi:
             update: Päivitä
           form:
             admin_log_cleaner_title: Hallintatoimintojen lokitiedot
+            authorization_data_cleaner_title: Auktorisointitiedot
             inactive_users_cleaner_title: Passiiviset käyttäjät
       delete_reason: Käyttäjä poistettiin käyttäjätilin passiivisuuden takia
       inactive_users_mailer:

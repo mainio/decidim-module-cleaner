@@ -25,6 +25,7 @@ en:
             update: Update
           form:
             admin_log_cleaner_title: Admin log
+            authorization_data_cleaner_title: Authorization data
             inactive_users_cleaner_title: Inactive users
       delete_reason: User deleted because of inactivity
       inactive_users_mailer:

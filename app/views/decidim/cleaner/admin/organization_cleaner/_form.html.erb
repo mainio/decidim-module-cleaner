@@ -3,6 +3,7 @@
     <div class="card-divider">
       <h2 class="card-title"><%= t ".admin_log_cleaner_title" %></h2>
     </div>
+
     <div class="card-section">
       <div class="row column">
         <%= form.check_box :delete_admin_logs %>
@@ -18,6 +19,7 @@
     <div class="card-divider">
       <h2 class="card-title"><%= t ".inactive_users_cleaner_title" %></h2>
     </div>
+
     <div class="card-section">
       <div class="row column">
         <%= form.check_box :delete_inactive_users %>
@@ -29,6 +31,22 @@
 
       <div class="row column">
         <%= form.number_field :delete_inactive_users_after %>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-divider">
+      <h2 class="card-title"><%= t ".authorization_data_cleaner_title" %></h2>
+    </div>
+
+    <div class="card-section">
+      <div class="row column">
+        <%= form.check_box :delete_autorization_data %>
+      </div>
+
+      <div class="row column">
+        <%= form.number_field :delete_authorization_data_after %>
       </div>
     </div>
   </div>

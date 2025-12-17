@@ -11,5 +11,10 @@ namespace :decidim_cleaner do
   task clean_admin_logs: :environment do
     Decidim::Cleaner::CleanAdminLogsJob.perform_now
   end
+
+  desc "Deletes old authorization data"
+  task delete_authorization_data: :environment do
+    Decidim::Cleaner::CleanAuthorizationData.perform_now
+  end
 end
 # :nocov:
