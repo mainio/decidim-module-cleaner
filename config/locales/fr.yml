@@ -26,6 +26,7 @@ fr:
             update: Mettre à jour
           form:
             admin_log_cleaner_title: Historique d'administration
+            authorization_data_cleaner_title: Données d'autorisation
             inactive_users_cleaner_title: Utilisateurs inactifs
       delete_reason: Utilisateur supprimé pour inactivité
       inactive_users_mailer:

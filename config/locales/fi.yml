@@ -5,6 +5,8 @@ fi:
       organization:
         delete_admin_logs: Ota käyttöön hallintatoimintojen lokien poistaminen
         delete_admin_logs_after: Hallintatoimintojen lokien säilytysaika (päivää, oletusarvo 365)
+        delete_authorization_data: Ota käyttöön auktorisointitietojen poistaminen
+        delete_authorization_data_after: Auktorisointitietojen säilytysaika (päivää, oletusarvo 30) käyttäjän poiston jälkeen
         delete_inactive_users: Ota käyttöön passiivisten käyttäjätilien poisto
         delete_inactive_users_after: Passiivisten käyttäjätilien säilytysaika varoitusviestin lähetyksen jälkeen (päivää, oletusarvo 30)
         delete_inactive_users_email_after: Käyttäjätilin poiston varoitusviestin lähetysaika käyttäjätilin ollessa passiivinen (päivää, oletusarvo 365)

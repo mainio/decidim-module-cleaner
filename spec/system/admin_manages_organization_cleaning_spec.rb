@@ -20,12 +20,16 @@ describe "Admin manages organization cleaning" do
       expect(page).to have_content("Enable inactive users deletion")
       expect(page).to have_content("Delete inactive users x days after")
       expect(page).to have_content("Send email to inactive users before deletion")
+      expect(page).to have_content("Enable authorization data deletion")
+      expect(page).to have_content("Delete authorization data after")
 
       find(:css, "input[name='organization[delete_admin_logs]'").set(true)
       fill_in "Delete admin logs after", with: 365
       find(:css, "input[name='organization[delete_inactive_users]'").set(true)
       fill_in "Delete inactive users x days after", with: 30
       fill_in "Send email to inactive users before deletion", with: 365
+      find(:css, "input[name='organization[delete_authorization_data]'").set(true)
+      fill_in "Delete authorization data after", with: 30
 
       click_button "Update"
       expect(page).to have_content("updated successfully")

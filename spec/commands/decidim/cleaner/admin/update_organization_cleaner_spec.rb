@@ -13,7 +13,9 @@ module Decidim::Cleaner::Admin
           delete_admin_logs_after: 25,
           delete_inactive_users: true,
           delete_inactive_users_after: 30,
-          delete_inactive_users_email_after: 25
+          delete_inactive_users_email_after: 25,
+          delete_authorization_data: true,
+          delete_authorization_data_after: 30
         }
       end
       let(:context) do
@@ -45,6 +47,8 @@ module Decidim::Cleaner::Admin
           expect(organization.delete_inactive_users).to be false
           expect(organization.delete_inactive_users_after).to be_nil
           expect(organization.delete_inactive_users_email_after).to be_nil
+          expect(organization.delete_authorization_data).to be false
+          expect(organization.delete_authorization_data_after).to be_nil
         end
       end
 
@@ -75,6 +79,8 @@ module Decidim::Cleaner::Admin
           expect(organization.delete_inactive_users).to be true
           expect(organization.delete_inactive_users_after).to eq(30)
           expect(organization.delete_inactive_users_email_after).to eq(25)
+          expect(organization.delete_authorization_data).to be true
+          expect(organization.delete_authorization_data_after).to eq(30)
         end
       end
     end

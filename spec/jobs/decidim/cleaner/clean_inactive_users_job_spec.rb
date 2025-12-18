@@ -22,13 +22,23 @@ describe Decidim::Cleaner::CleanInactiveUsersJob do
       subject.perform_now
     end
 
-    it "delete user" do
-      subject.perform_now
+    context "when inactive users and managed users" do
+      let!(:admin) { create(:user, :admin, organization:) }
+      let!(:old_managed_user) { create(:user, :managed, organization:, warning_date: 10.days.ago) }
+      let!(:old_impersonation_log) { create(:impersonation_log, admin:, user: old_managed_user, started_at: 35.days.ago) }
+      let!(:managed_user) { create(:user, :managed, organization:) }
+      let!(:impersonation_log) { create(:impersonation_log, admin:, user: managed_user, started_at: Time.now) }
 
-      expect(Decidim::User.count).to eq(3)
-      expect(inactive_user.reload).to be_deleted
-      expect(pending_user.reload).not_to be_deleted
-      expect(user.reload).not_to be_deleted
+      it "deletes them" do
+        subject.perform_now
+
+        expect(Decidim::User.where(admin: false).count).to eq(5)
+        expect(inactive_user.reload).to be_deleted
+        expect(old_managed_user.reload).to be_deleted
+        expect(managed_user.reload).not_to be_deleted
+        expect(pending_user.reload).not_to be_deleted
+        expect(user.reload).not_to be_deleted
+      end
     end
 
     context "when users have destroyed his/her account" do
@@ -52,7 +62,10 @@ describe Decidim::Cleaner::CleanInactiveUsersJob do
       end
     end
 
-    context "when user reconnect after warning" do
+    context "when user / managed user reconnect after warning" do
+      let!(:admin) { create(:user, :admin, organization:) }
+      let!(:old_managed_user) { create(:user, :managed, organization:, warning_date: 10.days.ago) }
+      let!(:old_impersonation_log) { create(:impersonation_log, admin:, user: old_managed_user, started_at: 7.days.ago) }
       let!(:inactive_user) { create(:user, organization:, current_sign_in_at: 7.days.ago, warning_date: 10.days.ago) }
 
       it "doesn't send email" do
@@ -64,12 +77,14 @@ describe Decidim::Cleaner::CleanInactiveUsersJob do
       it "doesn't destroy user" do
         subject.perform_now
 
+        expect(old_managed_user.reload).not_to be_deleted
         expect(inactive_user.reload).not_to be_deleted
       end
 
       it "reset warning date" do
         subject.perform_now
 
+        expect(old_managed_user.reload.warning_date).to be_nil
         expect(inactive_user.reload.warning_date).to be_nil
       end
     end
