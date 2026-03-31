@@ -10,7 +10,7 @@ module Decidim
       let!(:organization) { create(:organization, delete_authorization_data: true, delete_authorization_data_after: 25) }
       let!(:active_user) { create(:user, :confirmed, organization:) }
       let!(:old_deleted_user) { create(:user, :deleted, organization:, deleted_at: 25.days.ago) }
-      let!(:deleted_user) { create(:user, :deleted, organization:, deleted_at: Time.now) }
+      let!(:deleted_user) { create(:user, :deleted, organization:, deleted_at: Time.zone.now) }
       let!(:active_authorization) { create(:authorization, user: active_user) }
       let!(:idle_authorization) { create(:authorization, user: deleted_user) }
       let!(:expired_authorization) { create(:authorization, user: old_deleted_user) }
