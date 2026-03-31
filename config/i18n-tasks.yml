@@ -9,6 +9,8 @@ ignore_unused:
   - activemodel.attributes.organization.delete_inactive_users
   - activemodel.attributes.organization.delete_inactive_users_after
   - activemodel.attributes.organization.delete_inactive_users_email_after
+  - activemodel.attributes.organization.delete_authorization_data
+  - activemodel.attributes.organization.delete_authorization_data_after
   - decidim.admin.menu.clean
 
 ignore_missing:

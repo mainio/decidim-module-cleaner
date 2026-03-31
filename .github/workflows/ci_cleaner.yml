@@ -1,85 +1,23 @@
-name: "CI/CD"
-on: [push]
+name: "[CI] Cleaner"
+on:
+  push:
+    branches:
+      - develop
+      - main
+      - release/*
+  pull_request:
 
-env:
-  CI: "true"
-  CODECOV: "true"
-  RUBY_VERSION: 3.1.1
-  NODE_VERSION: 16.9.1
-  WEBPACKER_RUNTIME_COMPILE: "false"
-  RAILS_ENV: test
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
 
 jobs:
-  lint:
-    name: Lint code
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    steps:
-      - uses: rokroskar/workflow-run-cleanup-action@v0.3.0
-        if: "github.ref != 'refs/heads/develop'"
-        env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-      - uses: OpenSourcePolitics/lint-action@master
-  tests:
+  build_app:
+    name: Build test application
+    uses: mainio/gha-decidim-module/.github/workflows/build_app.yml@main
+    secrets: inherit
+  main:
+    needs: build_app
     name: Tests
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    services:
-      postgres:
-        image: postgres:11
-        ports: ["5432:5432"]
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        env:
-          POSTGRES_PASSWORD: postgres
-    env:
-      DATABASE_USERNAME: postgres
-      DATABASE_PASSWORD: postgres
-      DATABASE_HOST: localhost
-    steps:
-      - uses: rokroskar/workflow-run-cleanup-action@v0.3.0
-        if: "github.ref != 'refs/heads/develop'"
-        env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-      - uses: OpenSourcePolitics/rspec-action@master
-        with:
-          command: "bundle exec rspec --exclude-pattern 'spec/system/**/*_spec.rb'"
-  system_tests:
-    name: System tests
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    services:
-      postgres:
-        image: postgres:11
-        ports: ["5432:5432"]
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        env:
-          POSTGRES_PASSWORD: postgres
-    env:
-      DATABASE_USERNAME: postgres
-      DATABASE_PASSWORD: postgres
-      DATABASE_HOST: localhost
-    steps:
-      - uses: rokroskar/workflow-run-cleanup-action@v0.3.0
-        if: "github.ref != 'refs/heads/develop'"
-        env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-      - uses: OpenSourcePolitics/rspec-action@master
-        with:
-          command: "bundle exec rspec spec/system"
-  publish:
-    if: "github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/release' )"
-    needs: [tests, system_tests, lint]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: OpenSourcePolitics/publish-gem-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          rubygems_api_key: ${{ secrets.RUBYGEMS_API_KEY }}
+    uses: mainio/gha-decidim-module/.github/workflows/ci_rspec.yml@main
+    secrets: inherit
