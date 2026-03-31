@@ -12,11 +12,11 @@ module Decidim
           send_warning(Decidim::User.unscoped.where(organization:)
                                     .not_deleted
                                     .where.not(email: "")
-                                    .where("current_sign_in_at < ?", email_inactive_before_date(organization)))
+                                    .where(current_sign_in_at: ...email_inactive_before_date(organization)))
           delete_user_and_send_email(Decidim::User.unscoped.where(organization:)
                                                   .not_deleted
                                                   .where.not(email: "")
-                                                  .where("warning_date < ?", delete_inactive_before_date(organization)))
+                                                  .where(warning_date: ...delete_inactive_before_date(organization)))
 
           # Handle deleting managed users created for impersonation that have been inactive
           update_warning(
@@ -25,20 +25,17 @@ module Decidim
                          .managed
                          .joins(
                            "INNER JOIN decidim_impersonation_logs ON decidim_impersonation_logs.decidim_user_id = decidim_users.id"
-                          )
-                         .where("decidim_impersonation_logs.started_at < ?",
-                           email_inactive_before_date(organization)
-                         ).distinct)
+                         )
+                         .where(decidim_impersonation_logs: { started_at: ...email_inactive_before_date(organization) }).distinct
+          )
           delete_managed_user(
             Decidim::User.unscoped.where(organization:)
                          .not_deleted
                          .managed
                          .joins(
                            "INNER JOIN decidim_impersonation_logs ON decidim_impersonation_logs.decidim_user_id = decidim_users.id"
-                         ).where(
-                           "warning_date < ?",
-                            delete_inactive_before_date(organization)
-                         ).distinct)
+                         ).where(warning_date: ...delete_inactive_before_date(organization)).distinct
+          )
         end
       end
 
