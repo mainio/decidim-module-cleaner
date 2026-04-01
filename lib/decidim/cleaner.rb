@@ -21,12 +21,8 @@ module Decidim
       ENV.fetch("DECIDIM_CLEANER_INACTIVE_USERS_MAIL", "365").to_i
     end
 
-    config_accessor :delete_deleted_users_data_after do
-      ENV.fetch("DECIDIM_CLEANER_DELETE_DELETED_USERS_DATA", "30").to_i
-    end
-
-    config_accessor :delete_deleted_authorizations_data_after do
-      ENV.fetch("DECIDIM_CLEANER_DELETE_DELETED_AUTHORIZATIONS_DATA", "30").to_i
+    config_accessor :delete_authorization_data_after do
+      ENV.fetch("DECIDIM_CLEANER_DELETE_AUTHORIZATION_DATA", "30").to_i
     end
   end
 end

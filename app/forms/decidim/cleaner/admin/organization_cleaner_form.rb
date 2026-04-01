@@ -15,6 +15,9 @@ module Decidim
         attribute :delete_inactive_users, Boolean
         attribute :delete_inactive_users_after, Integer
         attribute :delete_inactive_users_email_after, Integer
+
+        attribute :delete_authorization_data, Boolean
+        attribute :delete_authorization_data_after, Integer
       end
     end
   end
