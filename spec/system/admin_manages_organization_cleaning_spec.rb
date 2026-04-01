@@ -31,7 +31,7 @@ describe "Admin manages organization cleaning" do
       find(:css, "input[name='organization[delete_authorization_data]'").set(true)
       fill_in "Delete authorization data after", with: 30
 
-      click_button "Update"
+      click_on "Update"
       expect(page).to have_content("updated successfully")
     end
   end

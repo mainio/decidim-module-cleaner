@@ -27,7 +27,7 @@ describe Decidim::Cleaner::CleanInactiveUsersJob do
       let!(:old_managed_user) { create(:user, :managed, organization:, warning_date: 10.days.ago) }
       let!(:old_impersonation_log) { create(:impersonation_log, admin:, user: old_managed_user, started_at: 35.days.ago) }
       let!(:managed_user) { create(:user, :managed, organization:) }
-      let!(:impersonation_log) { create(:impersonation_log, admin:, user: managed_user, started_at: Time.now) }
+      let!(:impersonation_log) { create(:impersonation_log, admin:, user: managed_user, started_at: Time.zone.now) }
 
       it "deletes them" do
         subject.perform_now
