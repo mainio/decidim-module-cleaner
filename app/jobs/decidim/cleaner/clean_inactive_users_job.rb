@@ -83,7 +83,7 @@ module Decidim
             next
           end
 
-          Decidim::DestroyAccount.call(user, Decidim::DeleteAccountForm.from_params({ delete_reason: I18n.t("decidim.cleaner.delete_reason") }))
+          Decidim::DestroyAccount.call(Decidim::DeleteAccountForm.from_params({ delete_reason: I18n.t("decidim.cleaner.delete_reason") }), target_user: user)
           Rails.logger.info "User with id #{user.id} destroyed"
         end
       end

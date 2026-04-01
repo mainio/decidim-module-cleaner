@@ -34,9 +34,6 @@ DECIDIM_CLEANER_DELETE_INACTIVE_USERS=
 # Delay until an admin log is deleted (in days, default: 365)
 DECIDIM_CLEANER_DELETE_ADMIN_LOGS=
 
-# Delay until user's versions are deleted after the user deletion (in days, default: 30)
-DECIDIM_CLEANER_DELETE_DELETED_USERS_DATA=
-
 # Delay until deleted authorization's versions are deleted after the authorization creation (in days, default: 30)
 DECIDIM_CLEANER_DELETE_DELETED_AUTHORIZATIONS_DATA=
 ```
