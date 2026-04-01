@@ -15,7 +15,8 @@ Gem::Specification.new do |s|
     "documentation_uri" => "https://docs.decidim.org/",
     "funding_uri" => "https://opencollective.com/decidim",
     "homepage_uri" => "https://decidim.org",
-    "source_code_uri" => "https://github.com/decidim/decidim"
+    "source_code_uri" => "https://github.com/decidim/decidim",
+    "rubygems_mfa_required" => "true"
   }
   s.required_ruby_version = "~> 3.2"
 
@@ -25,5 +26,5 @@ Gem::Specification.new do |s|
 
   s.files = Dir["{app,config,db,lib}/**/*", "LICENSE-AGPLv3.txt", "Rakefile", "README.md"]
 
-  s.add_dependency "decidim-core",  Decidim::Cleaner.compatible_decidim_version
+  s.add_dependency "decidim-core", Decidim::Cleaner.decidim_version
 end
