@@ -5,6 +5,8 @@ en:
       organization:
         delete_admin_logs: Enable admin logs deletion
         delete_admin_logs_after: Delete admin logs after (days, default 365)
+        delete_authorization_data: Enable authorization data deletion
+        delete_authorization_data_after: Delete authorization data after (days, default 30) after user deletion
         delete_inactive_users: Enable inactive users deletion
         delete_inactive_users_after: Delete inactive users x days after the mail(days,
           default 30)
