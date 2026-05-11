@@ -33,20 +33,56 @@ module Decidim
       end
 
       def destroy_user_identities
-        @user.identities.destroy_all
+        @user.identities.find_each(&:destroy)
       end
 
       def destroy_user_group_memberships
-        Decidim::UserGroupMembership.where(user: @user).destroy_all
+        Decidim::UserGroupMembership.where(user: @user).find_each(&:destroy)
       end
 
       def destroy_follows
-        Decidim::Follow.where(followable: @user).destroy_all
-        Decidim::Follow.where(user: @user).destroy_all
+        Decidim::Follow.where(followable: @user).find_each(&:destroy)
+        Decidim::Follow.where(user: @user).find_each(&:destroy)
+      end
+
+      def destroy_user_versions
+        @user.versions.find_each(&:destroy)
+      end
+
+      def destroy_user_private_exports
+        @user.private_exports.find_each(&:destroy)
+      end
+
+      def destroy_user_access_grants
+        @user.access_grants.find_each(&:destroy)
+      end
+
+      def destroy_user_access_tokens
+        @user.access_tokens.find_each(&:destroy)
+      end
+
+      def destroy_user_reminders
+        @user.reminders.find_each(&:destroy)
+      end
+
+      def destroy_user_notifications
+        @user.notifications.find_each(&:destroy)
+      end
+
+      def destroy_user_badges
+        Decidim::Gamification::BadgeScore.where(user: @user).find_each(&:destroy)
+      end
+
+      def destroy_user_endorsements
+        Decidim::Endorsement.where(author: @user).find_each(&:destroy)
+      end
+
+      def destroy_user_reports
+        Decidim::UserModeration.where(user: @user).find_each(&:destroy)
       end
 
       def destroy_participatory_space_private_user
-        Decidim::ParticipatorySpacePrivateUser.where(user: @user).destroy_all
+        Decidim::ParticipatorySpacePrivateUser.where(user: @user).find_each(&:destroy)
       end
 
       def delegate_destroy_to_participatory_spaces
