@@ -31,7 +31,7 @@ group :development, :test do
 end
 
 group :development do
-  # Lock faker to 3.2 because Twitter is X nowadays
+  # Lock faker to 3.2 because Twitter -> X causes an error
   gem "faker", "3.2"
   gem "letter_opener_web", "~> 2.0"
   gem "listen", "~> 3.1"
