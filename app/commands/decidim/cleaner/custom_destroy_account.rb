@@ -32,17 +32,20 @@ module Decidim
         @user.invalidate_all_sessions!
       end
 
+      def destroy_user_badges
+        Decidim::Gamification::BadgeScore.where(user: @user).find_each(&:destroy)
+      end
+
+      def destroy_user_reports
+        Decidim::UserModeration.where(user: @user).find_each(&:destroy)
+      end
+
+      def destroy_user_likes
+        Decidim::Like.where(author: @user).find_each(&:destroy)
+      end
+
       def destroy_user_identities
         @user.identities.find_each(&:destroy)
-      end
-
-      def destroy_user_group_memberships
-        Decidim::UserGroupMembership.where(user: @user).find_each(&:destroy)
-      end
-
-      def destroy_follows
-        Decidim::Follow.where(followable: @user).find_each(&:destroy)
-        Decidim::Follow.where(user: @user).find_each(&:destroy)
       end
 
       def destroy_user_versions
@@ -69,16 +72,9 @@ module Decidim
         @user.notifications.find_each(&:destroy)
       end
 
-      def destroy_user_badges
-        Decidim::Gamification::BadgeScore.where(user: @user).find_each(&:destroy)
-      end
-
-      def destroy_user_endorsements
-        Decidim::Endorsement.where(author: @user).find_each(&:destroy)
-      end
-
-      def destroy_user_reports
-        Decidim::UserModeration.where(user: @user).find_each(&:destroy)
+      def destroy_follows
+        Decidim::Follow.where(followable: @user).find_each(&:destroy)
+        Decidim::Follow.where(user: @user).find_each(&:destroy)
       end
 
       def destroy_participatory_space_private_user
@@ -89,6 +85,17 @@ module Decidim
         Decidim.participatory_space_manifests.each do |space_manifest|
           space_manifest.invoke_on_destroy_account(@user)
         end
+      end
+
+      # We use memoization in this particular email, as we want to have the data available before the actual anonymization
+      def event_arguments
+        @event_arguments ||= {
+          user_id: @user.id,
+          user_email: @user.email,
+          user_name: @user.name,
+          locale: @user.locale,
+          organization: @user.organization
+        }
       end
     end
   end

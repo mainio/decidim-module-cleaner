@@ -40,12 +40,12 @@ module Decidim
           Decidim::UserModeration.where(user: target_user).find_each(&:destroy)
         end
 
-        def destroy_user_endorsements
-          Decidim::Endorsement.where(author: target_user).find_each(&:destroy)
+        def destroy_user_likes
+          Decidim::Like.where(author: target_user).find_each(&:destroy)
         end
 
         def destroy_user_identities
-          target_user.identities.destroy_all
+          target_user.identities.find_each(&:destroy)
         end
 
         def destroy_user_versions
@@ -72,23 +72,30 @@ module Decidim
           target_user.notifications.find_each(&:destroy)
         end
 
-        def destroy_user_group_memberships
-          Decidim::UserGroupMembership.where(user: target_user).destroy_all
-        end
-
         def destroy_follows
           Decidim::Follow.where(followable: target_user).destroy_all
           Decidim::Follow.where(user: target_user).destroy_all
         end
 
         def destroy_participatory_space_private_user
-          Decidim::ParticipatorySpacePrivateUser.where(user: target_user).destroy_all
+          Decidim::ParticipatorySpacePrivateUser.where(user: target_user).find_each(&:destroy)
         end
 
         def delegate_destroy_to_participatory_spaces
           Decidim.participatory_space_manifests.each do |space_manifest|
             space_manifest.invoke_on_destroy_account(target_user)
           end
+        end
+
+        # We use memoization in this particular email, as we want to have the data available before the actual anonymization
+        def event_arguments
+          @event_arguments ||= {
+            user_id: target_user.id,
+            user_email: target_user.email,
+            user_name: target_user.name,
+            locale: target_user.locale,
+            organization: target_user.organization
+          }
         end
       end
     end
