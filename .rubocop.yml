@@ -1,24 +1,2 @@
-require: rubocop-factory_bot
-
-inherit_from:
-  - .rubocop_ruby.yml
-  - .rubocop_rails.yml
-
-AllCops:
-  TargetRubyVersion: 3.1
-  Include:
-    - "**/*.rb"
-    - "**/*.rake"
-    - "**/*.ru"
-    - "**/Gemfile"
-    - "**/Rakefile"
-  Exclude:
-    - "node_modules/**/*"
-    - "db/schema.rb"
-    - "vendor/**/*"
-    - "spec/decidim_dummy_app/**/*"
-    - "development_app/**/*"
-
-RSpec/DescribeClass:
-  Exclude:
-    - spec/system/*
+inherit_gem:
+  decidim-dev: rubocop-decidim.yml
