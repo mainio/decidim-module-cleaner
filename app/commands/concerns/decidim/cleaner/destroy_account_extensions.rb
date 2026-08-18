@@ -77,8 +77,8 @@ module Decidim
           Decidim::Follow.where(user: target_user).destroy_all
         end
 
-        def destroy_participatory_space_private_user
-          Decidim::ParticipatorySpacePrivateUser.where(user: target_user).find_each(&:destroy)
+        def destroy_member
+          Decidim::ParticipatorySpace::Member.where(user: target_user).find_each(&:destroy)
         end
 
         def delegate_destroy_to_participatory_spaces

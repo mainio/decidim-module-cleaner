@@ -83,11 +83,11 @@ module Decidim
         end
 
         it "deletes participatory space private user" do
-          create(:participatory_space_private_user, user:)
+          create(:member, user:)
 
           expect do
             command.call
-          end.to change(ParticipatorySpacePrivateUser, :count).by(-1)
+          end.to change(Decidim::ParticipatorySpace::Member, :count).by(-1)
         end
 
         context "when user is admin" do
